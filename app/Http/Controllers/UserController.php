@@ -71,6 +71,8 @@ class UserController extends Controller
         $user->birthDate = $request->birthDate;
         $user->bankAccountNumber = $request->bankAccountNumber;
         $user->cellphoneNumber = $request->cellphoneNumber;
+        $user->address = $request->address;
+        
 
         if(!$user->save()) {
             throw new HttpException(500);

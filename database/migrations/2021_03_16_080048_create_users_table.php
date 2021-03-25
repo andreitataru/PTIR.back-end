@@ -23,8 +23,10 @@ class CreateUsersTable extends Migration
             $table->string('bankAccountNumber')->nullable();
             $table->decimal('rating', $precision = 1, $scale = 1)->default(0); //0-5
             $table->string('cellphoneNumber')->nullable();
+            $table->string('address')->nullable();
             $table->string('password');
             $table->timestamps();
+           
         }); 
     }
 
