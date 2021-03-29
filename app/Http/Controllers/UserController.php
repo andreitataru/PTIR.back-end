@@ -86,13 +86,13 @@ class UserController extends Controller
             $user->address = $request->address;
         }
 
-        //if ($request->filled("avatar")){
-        $avatarName = 'a'.$user->id.'.'.request()->avatar->getClientOriginalExtension();
-        $file = $request->file('avatar');
-        $destinationPath = 'uploads';
-        $file->move($destinationPath, $avatarName);
-        $user->avatar = $avatarName;
-        //}
+        if ($request->hasFile("avatar")){
+            $avatarName = 'a'.$user->id.'.'.request()->avatar->getClientOriginalExtension();
+            $file = $request->file('avatar');
+            $destinationPath = 'uploads';
+            $file->move($destinationPath, $avatarName);
+            $user->avatar = $avatarName;
+        }
 
         if(!$user->save()) {
             throw new HttpException(500);
