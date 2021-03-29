@@ -22,8 +22,10 @@ class CreateUsersTable extends Migration
             $table->date('birthDate')->nullable();
             $table->string('bankAccountNumber')->nullable();
             $table->decimal('rating', $precision = 1, $scale = 1)->default(0); //0-5
+            $table->integer('timesRated')->default(0);
             $table->string('cellphoneNumber')->nullable();
             $table->string('address')->nullable();
+            $table->string('avatar')->default('user.jpg');
             $table->string('password');
             $table->timestamps();
            

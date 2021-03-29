@@ -66,13 +66,33 @@ class UserController extends Controller
                 'status' => 'Account type not allowed'
             ], 400);
         }
-        $user->accountType = $request->accountType;
-        $user->name = $request->name;
-        $user->birthDate = $request->birthDate;
-        $user->bankAccountNumber = $request->bankAccountNumber;
-        $user->cellphoneNumber = $request->cellphoneNumber;
-        $user->address = $request->address;
         
+        if ($request->filled("accountType")){
+            $user->accountType = $request->accountType;
+        }
+        if ($request->filled("name")){
+            $user->name = $request->name;
+        }
+        if ($request->filled("birthDate")){
+            $user->birthDate = $request->birthDate;
+        }
+        if ($request->filled("bankAccountNumber")){
+            $user->bankAccountNumber = $request->bankAccountNumber;
+        }
+        if ($request->filled("cellphoneNumber")){
+            $user->cellphoneNumber = $request->cellphoneNumber;
+        }
+        if ($request->filled("address")){
+            $user->address = $request->address;
+        }
+
+        //if ($request->filled("avatar")){
+        $avatarName = 'a'.$user->id.'.'.request()->avatar->getClientOriginalExtension();
+        $file = $request->file('avatar');
+        $destinationPath = 'uploads';
+        $file->move($destinationPath, $avatarName);
+        $user->avatar = $avatarName;
+        //}
 
         if(!$user->save()) {
             throw new HttpException(500);
