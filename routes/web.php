@@ -19,12 +19,20 @@ $router->get('/', function () use ($router) {
 
 
 
-// API route group
-$router->group(['prefix' => 'api'], function () use ($router) {
-    // Matches "/api/register
-   $router->post('register', 'AuthController@register');
+$router->group(['middleware' => 'cors'], function () use ($router) {
+    //All the routes you want to allow CORS for
+  
+    $router->options('/{any:.*}', function (Request $req) {
+      return;
+    });
 
-     // Matches "/api/login
+    // API route group
+    $router->group(['prefix' => 'api'], function () use ($router) {
+    
+    // Matches "/api/register
+    $router->post('register', 'AuthController@register');
+
+    // Matches "/api/login
     $router->post('login', 'AuthController@login');
 
     // Matches "/api/profile
@@ -43,3 +51,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // Matches "/api/checkToken
     $router->get('checkToken', 'UserController@checkToken');
 });
+
+  });

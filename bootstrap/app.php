@@ -79,7 +79,8 @@ $app->configure('app');
 // ]);
 
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'cors' => App\Http\Middleware\CorsMiddleware::class
 ]); 
 
 /*
@@ -118,11 +119,5 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 
-
-$app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
- ]);
- 
-$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 return $app;
