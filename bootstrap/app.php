@@ -119,4 +119,11 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 
+
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+ ]);
+ 
+$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
+
 return $app;
