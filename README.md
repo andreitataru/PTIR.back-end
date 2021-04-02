@@ -44,7 +44,7 @@ Command: cd lumen
 3. Clonar o repositório do backend  
 Command: git clone https://github.com/andreitataru/PTIR.back-end
 
-4. Instalar Composer  
+4. Instalar Composer, fazer o comando seguinte em cada repositório clonado  
 Command: composer install
 
 5. Fazer update do Composer  
@@ -53,16 +53,16 @@ Command: composer update
 6. Mudar para a diretoria do projeto "C:\xampp\htdocs\lumen\PTIR.back-end"  
 Command: cd C:\xampp\htdocs\lumen\PTIR.back-end
 
-7. Mudar o nome do file ".env.example" para ".env"  
+7. Mudar o nome do file ".env.example" para ".env", fazer o comando seguinte em cada repositório clonado 
 
-8. Criar um file novo denominado de ".env.example"  
+8. Criar um file novo denominado de ".env.example", fazer o comando seguinte em cada repositório clonado   
  
-9. Copiar todo o conteúdo do ".env" para o ".env.example"  
+9. Copiar todo o conteúdo do ".env" para o ".env.example", fazer o comando seguinte em cada repositório clonado   
 
-10. Gerar uma key random  
+10. Gerar uma key random, fazer o comando seguinte em cada repositório clonado   
 Command: php artisan key:generate
 
-11. Gerar key, dar update ao ".env" automaticamente  
+11. Gerar key, dar update ao ".env" automaticamente, fazer o comando seguinte em cada repositório clonado   
 Command: php artisan jwt:secret
 
 ## Testar server
