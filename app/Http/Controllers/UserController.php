@@ -63,13 +63,12 @@ class UserController extends Controller
         
         $user = Auth::user();
 
-        if (!($request->accountType == "Student" || $request->accountType == "Host" || $request->accountType == "ServiceProvider")) {
-            return response()->json([
-                'status' => 'Account type not allowed'
-            ], 400);
-        }
-        
         if ($request->filled("accountType")){
+            if (!($request->accountType == "Student" || $request->accountType == "Host" || $request->accountType == "ServiceProvider")) {
+                return response()->json([
+                    'status' => 'Account type not allowed'
+                ], 400);
+            }
             $user->accountType = $request->accountType;
         }
         if ($request->filled("name")){
