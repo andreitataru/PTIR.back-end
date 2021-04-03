@@ -23,7 +23,7 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function profile()
+    public function profile(Request $request)
     {
         return response()->json(['user' => Auth::user()], 200);
     }
@@ -33,8 +33,9 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function allUsers()
-    {
+    public function allUsers(Request $request)
+    {   
+
          return response()->json(['users' =>  User::all()], 200);
     }
 
@@ -59,6 +60,7 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
+        
         $user = Auth::user();
 
         if (!($request->accountType == "Student" || $request->accountType == "Host" || $request->accountType == "ServiceProvider")) {
