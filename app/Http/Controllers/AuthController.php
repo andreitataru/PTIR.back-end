@@ -31,6 +31,7 @@ class AuthController extends Controller
             $user->email = $request->input('email');
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
+            $user->avatar = url('/') . '/uploads/avatars/user.jpeg';
 
             $user->save();
 

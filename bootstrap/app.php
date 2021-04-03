@@ -100,6 +100,8 @@ $app->register(App\Providers\AuthServiceProvider::class);
 
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
+$app->register(Intervention\Image\ImageServiceProvider::class);
+
  // Add this line for JWTAuth
  $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class); 
 /*

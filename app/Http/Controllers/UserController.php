@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use  App\Models\User;
+use App\Models\User;
+use Intervention\Image\Facades\Image;
+
 
 class UserController extends Controller
 {
@@ -60,7 +62,6 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
-        
         $user = Auth::user();
 
         if ($request->filled("accountType")){
@@ -87,12 +88,12 @@ class UserController extends Controller
             $user->address = $request->address;
         }
 
-        if ($request->hasFile("avatar")){
-            $avatarName = 'a'.$user->id.'.'.request()->avatar->getClientOriginalExtension();
-            $file = $request->file('avatar');
-            $destinationPath = 'uploads';
-            $file->move($destinationPath, $avatarName);
-            $user->avatar = $avatarName;
+        if ($request->filled("avatar")){
+            
+            $avatarName = 'a'.$user->id.'.'.'jpg';
+            $path = 'uploads/avatars/' . $avatarName;
+            Image::make(file_get_contents($request->avatar))->save($path); 
+            $user->avatar = url('/') . '/' . $path;
         }
 
         if(!$user->save()) {
