@@ -64,6 +64,17 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
+        if ($user->created_at == $user->updated_at){
+            $this->validate($request, [
+                'accountType' => 'required',
+                'name' => 'required',
+                'birthDate' => 'required',
+                'bankAccountNumber' => 'required',
+                'cellphoneNumber' => 'required',
+                'address' => 'required'
+            ]);
+        }
+
         if ($request->filled("accountType")){
             if (!($request->accountType == "Student" || $request->accountType == "Host" || $request->accountType == "ServiceProvider")) {
                 return response()->json([
@@ -95,6 +106,7 @@ class UserController extends Controller
             Image::make(file_get_contents($request->avatar))->save($path); 
             $user->avatar = url('/') . '/' . $path;
         }
+        
 
         if(!$user->save()) {
             throw new HttpException(500);
