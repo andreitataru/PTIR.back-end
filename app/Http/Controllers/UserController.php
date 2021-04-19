@@ -123,7 +123,8 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 'Token Valid',
-            'accountType' => $user->accountType
+            'accountType' => $user->accountType,
+            'accountId' => $user->id
         ], 200);
     }
 
