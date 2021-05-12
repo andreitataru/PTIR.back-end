@@ -101,7 +101,7 @@ class UserController extends Controller
 
         if ($request->filled("avatar")){
             
-            $avatarName = 'a'.$user->id.'.'.'jpg';
+            $avatarName = 'a'.$user->id.'.'.'jpeg';
             $path = 'uploads/avatars/' . $avatarName;
             Image::make(file_get_contents($request->avatar))->save($path); 
             $user->avatar = url('/') . '/' . $path;
@@ -123,7 +123,8 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 'Token Valid',
-            'accountType' => $user->accountType
+            'accountType' => $user->accountType,
+            'accountId' => $user->id
         ], 200);
     }
 
