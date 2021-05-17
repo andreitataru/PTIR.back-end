@@ -1,44 +1,51 @@
-FROM php:7.4-fpm-alpine
+FROM php:7.4-apache
 
-# Install system dependencies
-#RUN apt-get update && apt-get install -y \
-#    git \
-#    curl
-RUN apk add --update \
+COPY . /var/www/html/project
+
+RUN ln -snf /usr/share/zoneinfo/Europe/Lisbon /etc/localtime && echo Europe/Lisbon > /etc/timezone
+RUN apt-get update
+RUN apt-get install -y \
     git \
     curl \
-    freetype \
-	freetype-dev \
-	libpng \
-	libpng-dev \
-	libjpeg-turbo \
-	libjpeg-turbo-dev \
-        libjpeg \
-	libtool \
-	libxml2-dev \
-	make \
-	g++ \
-	autoconf \
-	imagemagick-dev \
-	libtool 
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip
 
 # Clear cache
-#RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd mysqli
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
-RUN apk del autoconf g++ libtool make
-RUN rm -rf /tmp/* /var/cache/apk/*
+RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd
 
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+#install composer, which is dependency manager for laravel
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set working directory
-WORKDIR /var/www
-# Add docker-compose-wait tool -------------------
-ENV WAIT_VERSION 2.8.0
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
-RUN chmod +x /wait
+#restart apache server and enable url rewrite mode
+RUN service apache2 stop && a2enmod rewrite
+
+#add virtual host configuration of the site
+ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
+
+#Set the ENV vars
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_RUN_DIR /var/www/html/project
+
+ADD entrypoint.sh /root/entrypoint.sh
+RUN chmod 777 /root/entrypoint.sh
+ENTRYPOINT /root/entrypoint.sh
+
+WORKDIR /var/www/html/project
+
+EXPOSE 80
+
+# RUN DOCKER CONTAINER
+# minikube start
+# minikube docker-env
+# kubectl run <NAME> --image=<IMAGE> --port=80
+# kubectl expose deployment gateway --type="LoadBalancer"
+# minikube service <NAME> --url
