@@ -50,6 +50,16 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton(
+    Illuminate\Contracts\Filesystem\Factory::class,
+    function ($app) {
+    return new Illuminate\Filesystem\FilesystemManager($app);
+});
+$app->configure('filesystems');
+#class_alias('Illuminate\Support\Facades\Storage', 'Storage');
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(App\Providers\GoogleCloudStorageServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
