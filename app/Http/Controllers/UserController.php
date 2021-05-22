@@ -72,10 +72,6 @@ class UserController extends Controller
                 'bankAccountNumber' => 'required',
                 'cellphoneNumber' => 'required',
                 'address' => 'required',
-
-                //PART THAT NEEDS TO BE CHECKED #1
-                //is there a "Optional" tag even?
-                'password' => 'Optional'
             ]);
         }
 
@@ -103,9 +99,8 @@ class UserController extends Controller
             $user->address = $request->address;
         }
 
-        //PART THAT NEEDS TO BE CHECKED #2
         if ($request->filled("password")){
-            $user->password = $request->password;
+            $user->password = app('hash')->make($request->password);
         }
 
         if ($request->filled("avatar")){
