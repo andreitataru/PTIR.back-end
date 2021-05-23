@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use  App\Models\User;
+use App\Models\User;
 
 //import auth facades
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +31,7 @@ class AuthController extends Controller
             $user->email = $request->input('email');
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
-            $user->avatar = url('/') . '/uploads/avatars/user.jpeg';
+            $user->avatar = 'https://storage.cloud.google.com/ptr-pti-cdn/avatars/user.jpeg';
 
             $user->save();
 
