@@ -73,7 +73,7 @@ class UserController extends Controller
                 'birthDate' => 'required',
                 'bankAccountNumber' => 'required',
                 'cellphoneNumber' => 'required',
-                'address' => 'required'
+                'address' => 'required',
             ]);
         }
 
@@ -99,6 +99,10 @@ class UserController extends Controller
         }
         if ($request->filled("address")){
             $user->address = $request->address;
+        }
+
+        if ($request->filled("password")){
+            $user->password = app('hash')->make($request->password);
         }
 
         if ($request->filled("avatar")){
