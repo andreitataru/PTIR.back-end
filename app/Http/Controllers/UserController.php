@@ -37,8 +37,10 @@ class UserController extends Controller
      */
     public function allUsers(Request $request)
     {   
-
-         return response()->json(['users' =>  User::all()], 200);
+        $user = Auth::user();
+        if ($user->accountType == "Admin"){
+            return response()->json(['users' =>  User::all()], 200);
+        }
     }
 
     /**
