@@ -74,6 +74,7 @@ class UserController extends Controller
                 'bankAccountNumber' => 'required',
                 'cellphoneNumber' => 'required',
                 'address' => 'required',
+                'gender' => 'required'
             ]);
         }
 
@@ -87,6 +88,9 @@ class UserController extends Controller
         }
         if ($request->filled("name")){
             $user->name = $request->name;
+        }
+        if ($request->filled("gender")){
+            $user->gender = $request->gender;
         }
         if ($request->filled("birthDate")){
             $user->birthDate = $request->birthDate;
