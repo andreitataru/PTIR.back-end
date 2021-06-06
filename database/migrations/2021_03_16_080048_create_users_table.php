@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique()->notNullable();
             $table->string('accountType')->nullable();
             $table->date('birthDate')->nullable();
+            $table->string('gender')->nullable();
             $table->string('bankAccountNumber')->nullable();
             $table->decimal('rating', $precision = 1, $scale = 1)->default(0); //0-5
             $table->integer('timesRated')->default(0);

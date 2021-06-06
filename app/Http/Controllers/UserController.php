@@ -44,24 +44,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Get one user.
-     *
-     * @return Response
-     */
-    public function singleUser($id)
-    {
-        try {
-            $user = User::findOrFail($id);
-
-            return response()->json(['user' => $user], 200);
-
-        } catch (\Exception $e) {
-
-            return response()->json(['message' => 'user not found!'], 404);
-        }
-
-    }
 
     public function updateUser(Request $request)
     {
@@ -75,6 +57,7 @@ class UserController extends Controller
                 'bankAccountNumber' => 'required',
                 'cellphoneNumber' => 'required',
                 'address' => 'required',
+                //'gender' => 'required'
             ]);
         }
 
@@ -88,6 +71,9 @@ class UserController extends Controller
         }
         if ($request->filled("name")){
             $user->name = $request->name;
+        }
+        if ($request->filled("gender")){
+            $user->gender = $request->gender;
         }
         if ($request->filled("birthDate")){
             $user->birthDate = $request->birthDate;
@@ -135,7 +121,8 @@ class UserController extends Controller
         return response()->json([
             'status' => 'Token Valid',
             'accountType' => $user->accountType,
-            'accountId' => $user->id
+            'accountId' => $user->id,
+            'name' => $user->name
         ], 200);
     }
 
