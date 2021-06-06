@@ -74,7 +74,7 @@ class UserController extends Controller
                 'bankAccountNumber' => 'required',
                 'cellphoneNumber' => 'required',
                 'address' => 'required',
-                'gender' => 'required'
+                //'gender' => 'required'
             ]);
         }
 
