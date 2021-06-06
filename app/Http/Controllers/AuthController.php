@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use google\apiclient;
 
 //import auth facades
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,48 @@ class AuthController extends Controller
             return $this->respondWithToken($token, false);
         }
 
-        
+    }
+
+    public function googleSignIn(Request $request)
+    {
+        if (!User::where('googleId' , '=' , $request->googleId)->exists()){
+            try {
+                $user = new User;
+                $user->googleId = $request->googleId;
+                $user->username = $request->username;
+                $user->email = $request->email;
+                $plainPassword = uniqid();
+                $user->password = app('hash')->make($plainPassword);
+                $user->avatar = 'https://storage.cloud.google.com/ptr-pti-cdn/avatars/user.jpeg';
+                $user->save();
+
+                //return successful response
+                return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+
+            } catch (\Exception $e) {
+                //return error message
+                return response()->json(['message' => 'User Registration Failed!'], 409);
+            }
+        }
+        else{
+            $user = User::where('googleId' , '=' , $request->googleId)->first();
+            try {
+
+                $token = Auth::login($user, true);
+                $user = Auth::user();
+                if ($user->created_at == $user->updated_at){
+                    return $this->respondWithToken($token, true);
+                }
+                else{
+                    return $this->respondWithToken($token, false);
+                }
+    
+            } 
+            catch (JWTException $e) {
+                throw new HttpException(500);
+            }
+        }
+
     }
 
 

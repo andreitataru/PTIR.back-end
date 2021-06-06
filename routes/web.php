@@ -50,6 +50,9 @@ $router->group(['middleware' => 'cors'], function () use ($router) {
 
         // Matches "/api/checkToken
         $router->get('checkToken', 'UserController@checkToken');
+
+        $router->post('googleSignIn', 'AuthController@googleSignIn');
+
     });
 
 });
